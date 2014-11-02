@@ -1,7 +1,7 @@
 <html>
 
 <head>
-<title>Vertex Wave</title>
+<title>Vertex Ripple</title>
 <meta charset ="utf-8">
 <meta http-equiv="X-UA-Compatible" content="chrome=1">  <!-- Use Chrome Frame in IE --> 
 </head>
@@ -24,9 +24,10 @@
   void main(void)
   {
   // NOTE : according to the WebGL standard, 0.0f is not accepted
-  float s_contrib = sin(position.x*2.0*3.14159 + u_time);
-  float t_contrib = cos(position.y*2.0*3.14159 + u_time);
-  height = s_contrib*t_contrib;
+  float dx = 1.0 - abs(position.x - 0.5);
+  float dy = 1.0 - abs(position.y - 0.5);
+  float d = sqrt(dx * dx + dy * dy);
+  height = sin(d * 2.0 * 3.14159 + u_time) * d;
   
   // NOTE : gl_Position is always a vec4
   gl_Position = u_modelViewPerspective * vec4(vec3(position, height), 1.0);
@@ -130,7 +131,7 @@
     var mvp = mat4.create();
     mat4.multiply(persp, mv, mvp);
     u_time += time_incr;
-    u_time %= 3.14159;
+    u_time %= 6.28318;
     
     var max_color = vec4.create();
     max_color[0] = wave.maximum_color[0] / 255;
