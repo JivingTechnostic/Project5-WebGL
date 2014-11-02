@@ -86,12 +86,30 @@
 
         float gammaCorrect = 1.0/1.2; //gamma correct by 1/1.2
 
-        vec3 dayColor = texture2D(u_DayDiffuse, v_Texcoord).rgb;
-        vec3 nightColor = texture2D(u_Night, v_Texcoord).rgb;
-        //apply gamma correction to nighttime texture
-        nightColor = pow(nightColor,vec3(gammaCorrect));
+        vec3 dayTextureColor = texture2D(u_DayDiffuse, v_Texcoord).rgb;
+        vec3 nightTextureColor = texture2D(u_Night, v_Texcoord).rgb;
+        
+        // Reads from a black-white specular map, white (1) = full specular, black (0) = none.
+        // Only reads the 'r' property because it should be grayscale.
+        float specularCoeff = texture2D(u_EarthSpec, v_Texcoord).r;
+        
+        // Cloud Textures
+        vec2 cloud_Texcoord = vec2(v_Texcoord.s + u_time, v_Texcoord.t);
+        vec3 cloudTextureColor = texture2D(u_Cloud, cloud_Texcoord).rgb;
+        
+        // Reads from a black-white transparency map, white (1) = transparent, black (0) = opaque.
+        // Only reads the 'r' property because it should be grayscale.
+        float cloudTrans = texture2D(u_CloudTrans, cloud_Texcoord).r;
+        
+        // Calculate day colour with blinn-phong shading, and mix in cloud color.
+        vec3 dayColor = mix(cloudTextureColor, ((0.6 * diffuse) + (0.4 * specularCoeff * specular)) * dayTextureColor, cloudTrans);
+        
+        // Apply gamma correction to nighttime texture, and mix in clouds (black)
+        vec3 nightColor = mix(vec3(0.0), pow(nightTextureColor,vec3(gammaCorrect)), cloudTrans);
 
-        vec3 color = ((0.6 * diffuse) + (0.4 * specular)) * dayColor;
+        // Currently using a full gradient mix with a more heavily-weighted night because I don't really like how it treats half the world as a flat plane
+        // Full dayColor until diffuse < 0.5, and full nightColor on the back of the sphere.
+        vec3 color = mix(dayColor, nightColor, clamp(1.0 - 2.0 * diffuse, 0.0, 1.0));
         gl_FragColor = vec4(color, 1.0);
     }
 
