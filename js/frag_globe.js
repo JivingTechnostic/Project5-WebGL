@@ -54,6 +54,7 @@
     var u_CloudTransLocation;
     var u_EarthSpecLocation;
     var u_BumpLocation;
+    var u_BumpResolutionLocation;
     var u_timeLocation;
 
     (function initializeShader() {
@@ -74,6 +75,7 @@
         u_CloudTransLocation = gl.getUniformLocation(program,"u_CloudTrans");
         u_EarthSpecLocation = gl.getUniformLocation(program,"u_EarthSpec");
         u_BumpLocation = gl.getUniformLocation(program,"u_Bump");
+        u_BumpResolutionLocation = gl.getUniformLocation(program, "u_BumpResolution");
         u_timeLocation = gl.getUniformLocation(program,"u_time");
         u_CameraSpaceDirLightLocation = gl.getUniformLocation(program,"u_CameraSpaceDirLight");
 
@@ -286,6 +288,7 @@
         gl.activeTexture(gl.TEXTURE5);
         gl.bindTexture(gl.TEXTURE_2D, specTex);
         gl.uniform1i(u_EarthSpecLocation, 5);
+        gl.uniform2f(u_BumpResolutionLocation, 1024, 512);
         gl.drawElements(gl.TRIANGLES, numberOfIndices, gl.UNSIGNED_SHORT,0);
         gl.uniform1f(u_timeLocation, time);
 
