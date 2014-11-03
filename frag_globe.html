@@ -109,14 +109,24 @@
         // Only reads the 'r' property because it should be grayscale.
         float cloudTrans = texture2D(u_CloudTrans, cloud_Texcoord).r;
         
-        // Calculate day colour with blinn-phong shading, and mix in cloud color.
-        vec3 dayColor = mix(cloudTextureColor, ((0.6 * diffuse) + (0.4 * specularCoeff * specular)) * dayTextureColor, cloudTrans);
+        // Compute shadows from clouds, based on light position with respect to cloud position.
+        // Currently *shouldn't* work for all cases, in theory it cloudDirection needs to be transformed into the 
+        //    coordinate space of the 
+        vec3 cloudDirection = v_Position - u_CameraSpaceDirLight; 
+        // The 100 is simply a hardcoded height value (lower values mean the clouds are higher).
+        float cloudShadow = texture2D(u_CloudTrans, cloud_Texcoord - cloudDirection.xy / 100.0).x;
+        
+        // Kdiffuse = 0.6, Kspecular = 0.4.
+        float diffuseCoeff = 0.6 + 0.4 * (1.0 - specularCoeff);
+        specularCoeff *= 0.4;
+        
+        // Calculate day colour with blinn-phong shading, and mix in cloud color and shadows.
+        vec3 dayColor = mix(cloudTextureColor, ((diffuseCoeff * diffuse) + (specularCoeff * specular)) * dayTextureColor * (cloudShadow / 2.0 + 0.5), cloudTrans);
         
         // Apply gamma correction to nighttime texture, and mix in clouds (black)
         vec3 nightColor = mix(vec3(0.0), pow(nightTextureColor,vec3(gammaCorrect)), cloudTrans);
 
         float rimFactor = clamp(dot(v_Normal, v_Position) + 1.0, 0.0, 2.0);
-        
         
         // Currently using a full gradient mix with a more heavily-weighted night because I don't really like how it treats half the world as a flat plane
         // Full dayColor until diffuse < 0.5, and full nightColor on the back of the sphere.
@@ -140,6 +150,7 @@
     }
 </script>
 
+<script src ="js/stats/build/stats.min.js" type ="text/javascript"></script>
 <script src ="js/lib/gl-matrix.js" type ="text/javascript"></script>
 <script src ="js/webGLUtility.js" type ="text/javascript"></script>
 <script src ="js/frag_globe.js" type ="text/javascript"></script>

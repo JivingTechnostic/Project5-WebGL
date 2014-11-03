@@ -21,6 +21,10 @@
         return;
     }
 
+    var stats = new Stats();
+    stats.setMode(0);
+    document.body.appendChild(stats.domElement);
+    
     ///////////////////////////////////////////////////////////////////////////
 
     gl.viewport(0, 0, canvas.width, canvas.height);
@@ -239,7 +243,8 @@
     function animate() {
         ///////////////////////////////////////////////////////////////////////////
         // Update
-
+        stats.end();
+        stats.begin();
         var model = mat4.create();
         mat4.identity(model);
         mat4.rotate(model, 23.4/180*Math.PI, [0.0, 0.0, 1.0]);
