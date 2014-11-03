@@ -11,12 +11,14 @@ PART 1 - Mesh Vertex Shader
 -------------------------------------------------------------------------------
 ###Implemented Features
 
-*Implemented a sin wave in the vertex shader in vert_wave.html.
+####Sin wave
+![sin wave]()
 Implemented custom color selection using dat.GUI, and basic color interpolation for between the high and low points on the grid.
 
-*Implemented a centered wave in the vertex shader in vert_ripple.html.
->This wave spreads out from the center and has an exponential falloff in height as it moves away from the center.
->The sin function is based on distance from the center of the grid.
+####Circular ripple wave
+![ripple wave]()
+This wave spreads out from the center and has an exponential falloff in height as it moves away from the center.
+The sin function is based on distance from the center of the grid.
 
 -------------------------------------------------------------------------------
 PART 2 - Globe Fragment Shader
@@ -80,36 +82,20 @@ to see your beautiful globe from anywhere.
 -------------------------------------------------------------------------------
 PERFORMANCE EVALUATION
 -------------------------------------------------------------------------------
-The performance evaluation is where you will investigate how to make your 
-program more efficient using the skills you've learned in class. You must have
-performed at least one experiment on your code to investigate the positive or
-negative effects on performance. 
+To determine where to best start with the performance evaluation, I began by comparing the ms/frame of the globe with all shaders on, and with only a color=white fragment shader.  However, both values were so low (10-20 ms, 50-60 fps) that I couldn't determine if the calculations actually made a significant impact on the code.
 
-We encourage you to get creative with your tweaks. Consider places in your code
-that could be considered bottlenecks and try to improve them. 
+This being the case, I don't think that I will be able to actually measure any improvements on the code.  However, looking at frag_globe.js, I have identified some areas in animate() that could be improved.
 
-Each student should provide no more than a one page summary of their
-optimizations along with tables and or graphs to visually explain any
-performance differences.
+####Calculating the model matrix
+The model matrix begins as an identity matrix, and is then taken through 3 separate rotation calculations.  Two of these rotations are constant:
 
-In this homework, we do not expect crazy performance evaluation in terms of
-optimizations.  However, it would be good to take performance benchmarks at
-every step in this assignment to see how complicated fragment shaders affect the
-overall speed.  You can do this by using stats.js.
+>mat4.rotate(model, 23.4/180*Math.PI, [0.0, 0.0, 1.0]);
+>mat4.rotate(model, Math.PI, [1.0, 0.0, 0.0]);
 
----
-SUBMISSION
----
-As with the previous project, you should fork this project and work inside of
-your fork. Upon completion, commit your finished project back to your fork, and
-make a pull request to the master repository.  You should include a README.md
-file in the root directory detailing the following
+And don't need to be calculated every single animate() call.
 
-* A brief description of the project and specific features you implemented
-* At least one screenshot of your project running.
-* A link to a video of your project running.
-* Instructions for building and running your project if they differ from the
-  base code.
-* A performance writeup as detailed above.
-* A list of all third-party code used.
-* This Readme file edited as described above in the README section.
+####Calculating the light vectors
+Similarly, the light vectors do not change over time, and are constants.  As such, they do not need to be created eveyr single animate() call.
+
+####Mipmapping
+I don't think that this will change the performance significantly, and it's fairly limited because the user specifies the distance from the camera to the globe, but we can use lower-resolution textures for zoomed out shots.  However, there isn't a large range of possible levels of detail, so the benefits of mipmapping are marginal at best.
