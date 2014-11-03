@@ -95,7 +95,7 @@ The model matrix begins as an identity matrix, and is then taken through 3 separ
 And don't need to be calculated every single animate() call.
 
 ####Calculating the light vectors
-Similarly, the light vectors do not change over time, and are constants.  As such, they do not need to be created eveyr single animate() call.
+Similarly, the light vectors do not change over time, and are constants.  As such, they do not need to be created every single animate() call.
 
 ####Mipmapping
 I don't think that this will change the performance significantly, and it's fairly limited because the user specifies the distance from the camera to the globe, but we can use lower-resolution textures for zoomed out shots.  However, there isn't a large range of possible levels of detail, so the benefits of mipmapping are marginal at best.
