@@ -57,27 +57,6 @@ Clouds cast shadows to the left on the left (with respect to the light) of the g
 All I did to implement this was to sample the cloud density some distance along the direction of light - position, and shifted the density to range from [0.5, 1].  Then I used it as a multiplier on the base daylight texture color.  The [0.5, 1] range was chosen because I didn't want the shadows to be too dark.
 
 -------------------------------------------------------------------------------
-GH-PAGES
--------------------------------------------------------------------------------
-Since this assignment is in WebGL you will make your project easily viewable by 
-taking advantage of GitHub's project pages feature.
-
-Once you are done you will need to create a new branch named gh-pages:
-
-`git branch gh-pages`
-
-Switch to your new branch:
-
-`git checkout gh-pages`
-
-Create an index.html file that is either your renamed frag_globe.html or 
-contains a link to it, commit, and then push as usual. Now you can go to 
-
-`<user_name>.github.io/<project_name>` 
-
-to see your beautiful globe from anywhere.
-
--------------------------------------------------------------------------------
 PERFORMANCE EVALUATION
 -------------------------------------------------------------------------------
 To determine where to best start with the performance evaluation, I began by comparing the ms/frame of the globe with all shaders on, and with only a color=white fragment shader.  However, both values were so low (10-20 ms, 50-60 fps) that I couldn't determine if the calculations actually made a significant impact on the code.
