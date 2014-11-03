@@ -26,8 +26,8 @@
   // NOTE : according to the WebGL standard, 0.0f is not accepted
   float dx = 1.0 - abs(position.x - 0.5);
   float dy = 1.0 - abs(position.y - 0.5);
-  float d = sqrt(dx * dx + dy * dy);
-  height = sin(d * 2.0 * 3.14159 + u_time) * d;
+  float d = sqrt(dx * dx + dy * dy);  
+  height = sin(d * 6.0 * 3.14159 + u_time) * (pow(d, 4.0) / 4.0);
   
   // NOTE : gl_Position is always a vec4
   gl_Position = u_modelViewPerspective * vec4(vec3(position, height), 1.0);
