@@ -5,18 +5,18 @@ Fall 2014
 -------------------------------------------------------------------------------
 Jiatong He
 -------------------------------------------------------------------------------
-
+![globe](https://raw.githubusercontent.com/JivingTechnostic/Project5-WebGL/master/renders/globe.png)
 -------------------------------------------------------------------------------
 PART 1 - Mesh Vertex Shader
 -------------------------------------------------------------------------------
 ###Implemented Features
 
 ####Sin wave
-![sin wave]()
+![sin wave](https://raw.githubusercontent.com/JivingTechnostic/Project5-WebGL/master/renders/sin_wave.png)
 Implemented custom color selection using dat.GUI, and basic color interpolation for between the high and low points on the grid.
 
 ####Circular ripple wave
-![ripple wave]()
+![ripple wave](https://raw.githubusercontent.com/JivingTechnostic/Project5-WebGL/master/renders/ripple_wave.png)
 This wave spreads out from the center and has an exponential falloff in height as it moves away from the center.
 The sin function is based on distance from the center of the grid.
 
@@ -26,35 +26,31 @@ PART 2 - Globe Fragment Shader
 ###Implemented Features
 
 ####Night-time lights on the dark side of the globe
-![night lighting]()
+![night lighting](https://raw.githubusercontent.com/JivingTechnostic/Project5-WebGL/master/renders/globe_night.png)
 The sphere began with just daylight texture implemented, so I added the code for nighttime texture and added a mix to blend daylight and nighttime.  The mix I used keeps full dayColor until the diffuse term < 0.5, and full nightColor on the back of the sphere.
 
 ####Specular mapping
-![specular lighting]()
+![specular lighting](https://raw.githubusercontent.com/JivingTechnostic/Project5-WebGL/master/renders/globe_specular.png)
 The sphere originally had specular lighting on all areas.  I changed that so that only the water has specular highlights by reading from the specular map.
 
 ####Moving clouds
-![clouds]()
+![clouds](https://raw.githubusercontent.com/JivingTechnostic/Project5-WebGL/master/renders/globe_all.png)
 Implemented moving clouds by reading in from the cloud map and offsetting texture coordinates by a time value.
 
 ####Bump mapped terrain
-![bump mapping]()
+![bump mapping](https://raw.githubusercontent.com/JivingTechnostic/Project5-WebGL/master/renders/globe_labeled.png)
 Implemented bump mapping by reading in the current position, one unit up, and one unit right, and calculating a new normal using those values.
 
 ####Rim lighting to simulate atmosphere
-![rim lighting]()
+![rim lighting](https://raw.githubusercontent.com/JivingTechnostic/Project5-WebGL/master/renders/globe_rim.png)
 Simple rim lighting using a dot product between the normal and position.
 
 ###Extra Feature: Cloud Shadows
-![cloud shadows]()
+![cloud shadows](https://raw.githubusercontent.com/JivingTechnostic/Project5-WebGL/master/renders/globe_labeled.png)
 I implemented a rather basic cloud shadow technique for the globe.  The logic behind these shadows is that the light (the lit part of the globe) should cast long visible shadows near the day-night borders, and nearly no visible shadows where the globe is closest to the light.  You can see this in the image below.
 
-![clouds shadows left]()
-Clouds cast shadows to the left on the left (with respect to the light) of the globe
-![clouds shadows right]()
-right on the right,
-![clouds shadows center]()
-and none in the center.
+![clouds shadows white](https://raw.githubusercontent.com/JivingTechnostic/Project5-WebGL/master/renders/globe_shadows_labeled.png)
+Clouds cast shadows to the left on the left (with respect to the light) of the globe, right on the right, and none in the center.
 
 All I did to implement this was to sample the cloud density some distance along the direction of light - position, and shifted the density to range from [0.5, 1].  Then I used it as a multiplier on the base daylight texture color.  The [0.5, 1] range was chosen because I didn't want the shadows to be too dark.
 
