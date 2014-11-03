@@ -23,6 +23,8 @@ The sin function is based on distance from the center of the grid.
 -------------------------------------------------------------------------------
 PART 2 - Globe Fragment Shader
 -------------------------------------------------------------------------------
+![Globe Video Demo](https://raw.githubusercontent.com/JivingTechnostic/Project5-WebGL/master/renders/globe_video.mp4)
+
 ###Implemented Features
 
 ####Night-time lights on the dark side of the globe
