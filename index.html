@@ -111,7 +111,7 @@
         
         // Compute shadows from clouds, based on light position with respect to cloud position.
         // Currently *shouldn't* work for all cases, in theory it cloudDirection needs to be transformed into the 
-        //    coordinate space of the 
+        //  coordinate space of the 
         vec3 cloudDirection = v_Position - u_CameraSpaceDirLight; 
         // The 100 is simply a hardcoded height value (lower values mean the clouds are higher).
         float cloudShadow = texture2D(u_CloudTrans, cloud_Texcoord - cloudDirection.xy / 100.0).x;
