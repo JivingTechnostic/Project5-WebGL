@@ -25,7 +25,7 @@ PART 2 - Globe Fragment Shader
 -------------------------------------------------------------------------------
 ![Video Demo](https://raw.githubusercontent.com/JivingTechnostic/Project5-WebGL/master/renders/globe_video.mp4)
 
-![Live Demo](http://jivingtechnostic.github.io/Project5-WebGL/)
+[Live Demo](http://jivingtechnostic.github.io/Project5-WebGL/)
 
 ###Implemented Features
 
